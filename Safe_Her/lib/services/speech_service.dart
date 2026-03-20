@@ -14,26 +14,31 @@ class SpeechService {
   Future<void> startListening() async {
     bool available = await _speech.initialize(
       onStatus: (status) {
+        // ignore: avoid_print
         print("Status: $status");
         if (status == 'done' || status == 'notListening') {
           _rearmListener();
         }
       },
+      // ignore: avoid_print
       onError: (error) => print("Error: $error"),
     );
 
     if (available) {
       _listen();
     } else {
+      // ignore: avoid_print
       print("Speech recognition denied or not available");
     }
   }
 
   void _listen() {
+    // ignore: avoid_print
     print("🎤 Listening for keywords...");
     _speech.listen(
       onResult: (result) {
         String words = result.recognizedWords.toLowerCase();
+        // ignore: avoid_print
         print("Heard: $words");
 
         // 2. CHECK if keyword is heard AND a dialog isn't already open
@@ -44,7 +49,9 @@ class SpeechService {
       },
       listenFor: const Duration(seconds: 30),
       pauseFor: const Duration(seconds: 5),
+      // ignore: deprecated_member_use
       cancelOnError: false,
+      // ignore: deprecated_member_use
       partialResults: true,
     );
   }
@@ -67,6 +74,7 @@ class SpeechService {
           },
           onCancel: () {
             _isDialogShowing = false;
+            // ignore: avoid_print
             print("SOS Cancelled by user");
           },
         );

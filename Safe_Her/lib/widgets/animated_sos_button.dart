@@ -38,6 +38,7 @@ class _AnimatedSOSButtonState extends State<AnimatedSOSButton>
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
+              // ignore: deprecated_member_use
               color: Colors.red.withOpacity(0.5),
               blurRadius: 25,
               spreadRadius: 5,

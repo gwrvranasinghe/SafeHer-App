@@ -56,6 +56,7 @@ class SOSAlert {
                   onPressed: () {
                     timer?.cancel();
                     Navigator.pop(context);
+                    // ignore: avoid_print
                     print("SOS Cancelled by user");
                   },
                   child: const Text(
@@ -72,6 +73,7 @@ class SOSAlert {
   }
 
   static void _executeSOS() {
+    // ignore: avoid_print
     print("🚀 CALLING SOS FUNCTION NOW!");
     // This is where your call_service or sms_service logic will go later
   }
