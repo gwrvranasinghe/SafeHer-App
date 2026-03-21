@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart'; // Added for showDialog
+import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import '../main.dart'; // 1. IMPORT your main.dart to access navigatorKey
+import '../main.dart';
 import 'sos_service.dart';
 import 'dart:async';
 
@@ -8,7 +8,6 @@ class SpeechService {
   final SpeechToText _speech = SpeechToText();
   final SOSService _sosService = SOSService();
 
-  // Flag to prevent multiple dialogs from opening at once
   bool _isDialogShowing = false;
 
   Future<void> startListening() async {
@@ -41,7 +40,6 @@ class SpeechService {
         // ignore: avoid_print
         print("Heard: $words");
 
-        // 2. CHECK if keyword is heard AND a dialog isn't already open
         if ((words.contains("help") || words.contains("emergency")) &&
             !_isDialogShowing) {
           _showCountdownDialog();
@@ -56,21 +54,21 @@ class SpeechService {
     );
   }
 
-  // 3. THE NEW COUNTDOWN DIALOG FUNCTION
+  // countdown dialog function
   void _showCountdownDialog() {
     final context = navigatorKey.currentContext;
     if (context == null) return;
 
-    _isDialogShowing = true; // Block other triggers
+    _isDialogShowing = true;
 
     showDialog(
       context: context,
-      barrierDismissible: false, // User must press CANCEL to stop
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return SOSCountdownDialog(
           onConfirm: () {
             _isDialogShowing = false;
-            _sosService.triggerSOS(); // Call your existing SOS function
+            _sosService.triggerSOS();
           },
           onCancel: () {
             _isDialogShowing = false;
@@ -89,7 +87,6 @@ class SpeechService {
   }
 }
 
-// 4. THE DIALOG WIDGET (Add this at the bottom of the same file)
 class SOSCountdownDialog extends StatefulWidget {
   final VoidCallback onConfirm;
   final VoidCallback onCancel;
@@ -116,8 +113,8 @@ class _SOSCountdownDialogState extends State<SOSCountdownDialog> {
         setState(() => _secondsLeft--);
       } else {
         timer.cancel();
-        Navigator.pop(context); // Close dialog
-        widget.onConfirm(); // Trigger SOS
+        Navigator.pop(context);
+        widget.onConfirm();
       }
     });
   }

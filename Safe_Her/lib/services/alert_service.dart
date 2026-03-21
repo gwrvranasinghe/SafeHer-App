@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../main.dart'; // Import your navigatorKey
+import '../main.dart';
 
 class SOSAlert {
   static void showCountdown(BuildContext context) {
@@ -9,25 +9,24 @@ class SOSAlert {
 
     showDialog(
       context: navigatorKey.currentContext!,
-      barrierDismissible: false, // User must interact to stop it
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (context, setState) {
-            // Start timer only once
             timer ??= Timer.periodic(const Duration(seconds: 1), (t) {
               if (secondsLeft > 1) {
                 setState(() => secondsLeft--);
               } else {
                 t.cancel();
-                Navigator.pop(context); // Close box
-                _executeSOS(); // Your future SOS function
+                Navigator.pop(context);
+                _executeSOS();
               }
             });
 
             return AlertDialog(
               backgroundColor: Colors.red.shade900,
               title: const Text(
-                "🚨 EMERGENCY DETECTED",
+                "EMERGENCY DETECTED",
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -74,7 +73,6 @@ class SOSAlert {
 
   static void _executeSOS() {
     // ignore: avoid_print
-    print("🚀 CALLING SOS FUNCTION NOW!");
-    // This is where your call_service or sms_service logic will go later
+    print("CALLING SOS FUNCTION NOW!");
   }
 }
