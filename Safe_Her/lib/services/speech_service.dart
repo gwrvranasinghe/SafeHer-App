@@ -33,7 +33,7 @@ class SpeechService {
 
   void _listen() {
     // ignore: avoid_print
-    print("🎤 Listening for keywords...");
+    print("Listening for keywords...");
     _speech.listen(
       onResult: (result) {
         String words = result.recognizedWords.toLowerCase();
@@ -131,7 +131,7 @@ class _SOSCountdownDialogState extends State<SOSCountdownDialog> {
       backgroundColor: Colors.red.shade900,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       title: const Text(
-        "🚨 EMERGENCY DETECTED",
+        "EMERGENCY DETECTED",
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
