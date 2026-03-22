@@ -1,30 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'home_page.dart';
+import 'register_page.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  final nameController = TextEditingController();
+class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
-  final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final phoneController = TextEditingController();
   bool _isLoading = false;
 
   @override
   void dispose() {
-    nameController.dispose();
     usernameController.dispose();
-    emailController.dispose();
     passwordController.dispose();
-    phoneController.dispose();
     super.dispose();
   }
 
@@ -45,19 +40,8 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 40),
-                // Back Button
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_back, color: Colors.lightBlue),
-                    padding: EdgeInsets.zero,
-                  ),
-                ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 80),
 
-                // Logo/Title Section
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
@@ -73,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   child: const Column(
                     children: [
-                      Icon(Icons.security, size: 60, color: Colors.lightBlue),
+                      Icon(Icons.person, size: 60, color: Colors.lightBlue),
                       SizedBox(height: 10),
                       Text(
                         "SafeHer",
@@ -83,16 +67,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           color: Colors.lightBlue,
                         ),
                       ),
-                      Text(
-                        "Create Your Account",
-                        style: TextStyle(fontSize: 16, color: Colors.grey),
-                      ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 40),
 
-                // Registration Form
+                // Login Form
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
@@ -110,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        "Join SafeHer",
+                        "Welcome Back",
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -119,17 +99,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 8),
                       const Text(
-                        "Create an account to get started",
+                        "Sign in to continue",
                         style: TextStyle(fontSize: 16, color: Colors.grey),
                       ),
                       const SizedBox(height: 30),
 
-                      // Name Field
+                      // Username Field
                       TextField(
-                        controller: nameController,
+                        controller: usernameController,
                         decoration: InputDecoration(
-                          labelText: "Full Name",
-                          hintText: "Enter your full name",
+                          labelText: "Username",
+                          hintText: "Enter your username",
                           prefixIcon: const Icon(
                             Icons.person,
                             color: Colors.lightBlue,
@@ -150,65 +130,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           filled: true,
                           fillColor: Colors.grey.shade50,
                         ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Username Field
-                      TextField(
-                        controller: usernameController,
-                        decoration: InputDecoration(
-                          labelText: "Username",
-                          hintText: "Enter your username",
-                          prefixIcon: const Icon(
-                            Icons.account_circle,
-                            color: Colors.lightBlue,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: Colors.lightBlue,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: Colors.lightBlue,
-                              width: 2,
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey.shade50,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Email Field
-                      TextField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          labelText: "Email",
-                          hintText: "Enter your email",
-                          prefixIcon: const Icon(
-                            Icons.email,
-                            color: Colors.lightBlue,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: Colors.lightBlue,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: Colors.lightBlue,
-                              width: 2,
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey.shade50,
-                        ),
                         keyboardType: TextInputType.emailAddress,
+                        autocorrect: false,
                       ),
                       const SizedBox(height: 20),
 
@@ -217,7 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         controller: passwordController,
                         decoration: InputDecoration(
                           labelText: "Password",
-                          hintText: "Create a strong password",
+                          hintText: "Enter your password",
                           prefixIcon: const Icon(
                             Icons.lock,
                             color: Colors.lightBlue,
@@ -240,44 +163,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         obscureText: true,
                       ),
-                      const SizedBox(height: 20),
-
-                      // Phone Field
-                      TextField(
-                        controller: phoneController,
-                        decoration: InputDecoration(
-                          labelText: "Phone Number",
-                          hintText: "Enter your phone number",
-                          prefixIcon: const Icon(
-                            Icons.phone,
-                            color: Colors.lightBlue,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: Colors.lightBlue,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: Colors.lightBlue,
-                              width: 2,
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey.shade50,
-                        ),
-                        keyboardType: TextInputType.phone,
-                      ),
                       const SizedBox(height: 30),
 
-                      // Register Button
+                      // Login Button
                       SizedBox(
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: _isLoading ? null : _register,
+                          onPressed: _isLoading ? null : _login,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.lightBlue,
                             foregroundColor: Colors.white,
@@ -298,7 +191,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   ),
                                 )
                               : const Text(
-                                  "Create Account",
+                                  "Login",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -308,18 +201,25 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 20),
 
-                      // Login Link
+                      // Register Link
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text(
-                            "Already have an account?",
+                            "Don't have an account?",
                             style: TextStyle(color: Colors.grey),
                           ),
                           TextButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RegisterPage(),
+                                ),
+                              );
+                            },
                             child: const Text(
-                              "Login",
+                              "Register",
                               style: TextStyle(
                                 color: Colors.lightBlue,
                                 fontWeight: FontWeight.bold,
@@ -331,7 +231,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 40),
               ],
             ),
           ),
@@ -340,12 +239,9 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Future<void> _register() async {
-    if (nameController.text.trim().isEmpty ||
-        usernameController.text.trim().isEmpty ||
-        emailController.text.trim().isEmpty ||
-        passwordController.text.trim().isEmpty ||
-        phoneController.text.trim().isEmpty) {
+  Future<void> _login() async {
+    if (usernameController.text.trim().isEmpty ||
+        passwordController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Please fill in all fields"),
@@ -355,58 +251,45 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    if (passwordController.text.length < 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Password must be at least 6 characters"),
-          backgroundColor: Colors.orange,
-        ),
-      );
-      return;
-    }
-
     setState(() => _isLoading = true);
 
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim(),
-          );
+      String username = usernameController.text.trim();
 
-      String uid = userCredential.user!.uid;
+      // 🔍 Step 1: Find user in Firestore
+      var result = await FirebaseFirestore.instance
+          .collection('users')
+          .where('username', isEqualTo: username)
+          .limit(1)
+          .get();
 
-      await FirebaseFirestore.instance.collection('users').doc(uid).set({
-        'uid': uid,
-        'name': nameController.text.trim(),
-        'username': usernameController.text.trim(),
-        'email': emailController.text.trim(),
-        'contact_no': phoneController.text.trim(),
-        'created_at': FieldValue.serverTimestamp(),
-      });
+      if (result.docs.isEmpty) {
+        throw Exception("No user found with this username");
+      }
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Account created successfully!'),
-            backgroundColor: Colors.green,
-          ),
-        );
+      // 📧 Step 2: Get email
+      String email = result.docs.first['email'];
 
-        Navigator.pushAndRemoveUntil(
+      // 🔐 Step 3: Login with email
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: passwordController.text.trim(),
+      );
+
+      if (credential.user != null && mounted) {
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const SafeHerHome()),
-          (route) => false,
         );
       }
     } on FirebaseAuthException catch (e) {
       String message = "An error occurred";
-      if (e.code == 'weak-password') {
-        message = 'The password provided is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        message = 'An account already exists for that email.';
-      } else if (e.code == 'invalid-email') {
-        message = 'Invalid email format.';
+      if (e.code == 'user-not-found') {
+        message = "No user found for that username.";
+      } else if (e.code == 'wrong-password') {
+        message = "Wrong password provided.";
+      } else if (e.code == 'invalid-username') {
+        message = "Invalid username format.";
       } else {
         message = e.message ?? message;
       }
