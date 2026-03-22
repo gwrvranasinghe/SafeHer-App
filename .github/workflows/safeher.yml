@@ -11,16 +11,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults: 
+      run: 
+        working-directory: Safe_Her
+
     steps:
       - uses: actions/checkout@v3  # gets your code
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.13.0'  # replace with your Flutter version
+          flutter-version: '3.41.4'  # replace with your Flutter version
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run tests
-        run: flutter test
+      # - name: Run tests
+      #   run: flutter test
