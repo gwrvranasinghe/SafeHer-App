@@ -5,9 +5,14 @@ import 'contacts_page.dart';
 import 'map_page.dart';
 import 'profile_page.dart';
 
-class SafeHerHome extends StatelessWidget {
+class SafeHerHome extends StatefulWidget {
   const SafeHerHome({super.key});
 
+  @override
+  State<SafeHerHome> createState() => _SafeHerHomeState();
+}
+
+class _SafeHerHomeState extends State<SafeHerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

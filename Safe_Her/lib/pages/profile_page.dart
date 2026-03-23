@@ -10,7 +10,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("My Profile")),
+      appBar: AppBar(title: const Text("My Profile"), centerTitle: true),
 
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseAuth.instance.currentUser != null
