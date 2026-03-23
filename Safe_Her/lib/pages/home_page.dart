@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:safeher_app/pages/fake_notepad_home.dart';
 import '../widgets/animated_sos_button.dart';
 import 'contacts_page.dart';
 import 'map_page.dart';
@@ -40,9 +41,26 @@ class SafeHerHome extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  const Text(
-                    "SafeHer",
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FakeNotepadHome(
+                            onSecretUnlock: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "SafeHer",
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                   const Spacer(flex: 2),
                 ],

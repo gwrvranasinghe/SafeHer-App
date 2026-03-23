@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 import 'services/speech_service.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'widgets/firebase_options.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final speechService = SpeechService();
   await speechService.startListening();
 
