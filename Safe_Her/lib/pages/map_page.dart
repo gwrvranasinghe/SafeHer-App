@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../widgets/floating_home_button.dart';
 import '../utils/map_styles.dart';
-import 'package:flutter/services.dart'; // For clipboard
-import 'package:url_launcher/url_launcher.dart'; // For sharing via other apps
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -13,9 +13,8 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  // Sri Lanka coordinates
   static const CameraPosition _sriLankaPosition = CameraPosition(
-    target: LatLng(6.9271, 79.8612), // Colombo
+    target: LatLng(6.9271, 79.8612),
     zoom: 8,
   );
 
@@ -64,7 +63,7 @@ class _MapPageState extends State<MapPage> {
           style = MapStyles.retro;
           break;
         default:
-          style = '[]'; // Reset to default
+          style = '[]';
       }
       // ignore: deprecated_member_use
       await _mapController!.setMapStyle(style);

@@ -10,44 +10,53 @@ class SpeechService {
   final SOSService _sosService = SOSService();
 
   bool _isDialogShowing = false;
+  bool _isInitialized = false;
 
   Future<void> startListening() async {
-    bool available = await _speech.initialize(
-      onStatus: (status) {
-        // ignore: avoid_print
-        print("Status: $status");
-        if (status == 'done' || status == 'notListening') {
-          _rearmListener();
-        }
-      },
-      // ignore: avoid_print
-      onError: (error) => print("Error: $error"),
-    );
+    if (!_isInitialized) {
+      _isInitialized = await _speech.initialize(
+        onStatus: (status) {
+          debugPrint("Status: $status");
+          if ((status == 'done' || status == 'notListening') &&
+              !_isDialogShowing) {
+            _rearmListener();
+          }
+        },
+        onError: (error) => debugPrint("Error: $error"),
+      );
+    }
 
-    if (available) {
+    if (_isInitialized) {
       _listen();
     } else {
-      // ignore: avoid_print
-      print("Speech recognition denied or not available");
+      debugPrint("Speech recognition denied or not available");
     }
   }
 
+  void stopListening() {
+    _speech.stop();
+    _speech.cancel();
+  }
+
   void _listen() {
-    // ignore: avoid_print
-    print("🎤 Listening for keywords...");
+    if (_speech.isListening) return;
+
+    debugPrint("🎤 Listening for keywords...");
     _speech.listen(
       onResult: (result) {
         String words = result.recognizedWords.toLowerCase();
-        // ignore: avoid_print
-        print("Heard: $words");
+        debugPrint("Heard: $words");
 
         if ((words.contains("help") || words.contains("emergency")) &&
             !_isDialogShowing) {
+          _speech.stop();
           _showCountdownDialog();
         }
       },
       listenFor: const Duration(seconds: 30),
       pauseFor: const Duration(seconds: 5),
+      // ignore: deprecated_member_use
+      listenMode: ListenMode.deviceDefault, // Better for Android stability
       // ignore: deprecated_member_use
       cancelOnError: false,
       // ignore: deprecated_member_use
@@ -72,8 +81,8 @@ class SpeechService {
           },
           onCancel: () {
             _isDialogShowing = false;
-            // ignore: avoid_print
-            print("SOS Cancelled by user");
+            startListening();
+            debugPrint("SOS Cancelled by user");
           },
         );
       },
@@ -81,8 +90,10 @@ class SpeechService {
   }
 
   void _rearmListener() {
-    Future.delayed(const Duration(milliseconds: 500), () {
-      _listen();
+    Future.delayed(const Duration(milliseconds: 800), () {
+      if (!_isDialogShowing) {
+        _listen();
+      }
     });
   }
 }
